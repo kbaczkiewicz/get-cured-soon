@@ -32,11 +32,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Static analyze
+    - name: Install dependencies
       run: |
         cd app
         composer install --prefer-dist --no-progress
+    - name: PHPStan
+      run: |
+        cd app
         vendor/bin/phpstan -cphpstan.neon
+
+    - name: Mess detector
+      run: |
+        cd app
+        vendor/bin/phpmd src text cleancode, codesize, controversial, design, naming, unusedcode
+
+    - name: Code sniffer
+      run: |
+        cd app
+        vendor/bin/phpcs --standard=PSR12 src
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
