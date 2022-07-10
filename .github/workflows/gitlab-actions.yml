@@ -28,17 +28,14 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
-
-    - name: Install dependencies
-      run: |
-        cd app
-        composer install --prefer-dist --no-progress
   static-analyze:
     runs-on: ubuntu-latest
     steps:
     - name: Static analyze
+      with:
+        path: app
       run: |
-        cd app
+        composer install --prefer-dist --no-progress
         vendor/bin/phpstan -cphpstan.neon
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
