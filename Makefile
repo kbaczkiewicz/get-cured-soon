@@ -1,4 +1,5 @@
 MUTAGEN_SYNC_NAME=get-cured-soon-backend
+DC_EXEC=docker-compose exec php-fpm
 
 start:
 	docker-compose up -d
@@ -11,8 +12,23 @@ prune:
 	docker-compose down
 	mutagen sync terminate --all
 
+check-sync:
+	mutagen sync list
+
 bash:
-	docker-compose exec php-fpm bash
+	${DC_EXEC} bash
 
 phpstan:
-	docker-compose exec php-fpm vendor/bin/phpstan -cphpstan.neon
+	${DC_EXEC} vendor/bin/phpstan -cphpstan.neon
+
+phpmd:
+	${DC_EXEC} vendor/bin/phpmd src text cleancode, codesize, controversial, design, naming, unusedcode
+
+phpcs:
+	${DC_EXEC} vendor/bin/phpcs --standard=PSR12 src
+
+migration-new:
+	${DC_EXEC} bin/console make:migration
+
+migrate:
+	${DC_EXEC} bin/console d:m:m -n
