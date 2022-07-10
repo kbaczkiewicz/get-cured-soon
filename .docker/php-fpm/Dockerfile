@@ -5,8 +5,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install php-pgsql php-redis php-yaml php-xml \
+RUN apt-get install -y \
+            libzip-dev \
+            zip \
+            unzip \
+    && docker-php-ext-install zip \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 RUN apt-get update \
@@ -18,10 +21,9 @@ RUN apt-get update \
 RUN apt-get update \
     && apt-get -y install git \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-RUN apt-get update \
-    && apt-get install -y xvfb libfontconfig wkhtmltopdf \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 WORKDIR /application
 COPY app /application
-RUN composer install --no-interaction
