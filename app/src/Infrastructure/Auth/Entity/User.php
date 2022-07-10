@@ -20,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     * @phpstan-ignore
+     * @phpstan-ignore-next-line
      */
     private UuidInterface $id;
 
