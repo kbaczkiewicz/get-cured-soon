@@ -35,6 +35,7 @@ jobs:
         composer install --prefer-dist --no-progress
   static-analyze:
     runs-on: ubuntu-latest
+    steps:
     - name: Static analyze
       run: |
         cd app
