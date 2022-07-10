@@ -32,9 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Static analyze
-      with:
-        path: app
       run: |
+        cd app
         composer install --prefer-dist --no-progress
         vendor/bin/phpstan -cphpstan.neon
 
