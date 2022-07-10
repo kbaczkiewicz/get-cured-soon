@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @phpstan-param string[]
+     * @phpstan-param string[] $roles
      */
     public function setRoles(array $roles): self
     {
