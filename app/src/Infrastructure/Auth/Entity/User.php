@@ -20,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     * @phpstan-ignore
      */
     private UuidInterface $id;
 
@@ -30,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="json")
+     * @phpstan-var string[]
      */
     private array $roles = [];
 
@@ -59,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    /**
+     * @phpstan-return string[]
+     */
     public function getRoles(): array
     {
         $roles = $this->roles;
