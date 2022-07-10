@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @phpstan-param string[]
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
